@@ -78,8 +78,7 @@ def normalize(features):
     """
     mean_data = np.mean(features, axis=0) + EPSILON
     std_data = np.std(features, axis=0) + EPSILON
-    res = (features - mean_data) / std_data
-    return res
+    return (features - mean_data) / std_data
 
 
 def st_feature_extraction(signal, fs):
@@ -106,7 +105,7 @@ def st_feature_extraction(signal, fs):
     frame_count = 0
 
     # compute the filter banks used for MFCC computation
-    n_frames = int(signal_length / window_step)
+    n_frames = signal_length // window_step
     n_features = 22
     st_features = np.empty(shape=(n_frames, n_features), dtype=np.float64)
 
@@ -172,7 +171,7 @@ def extract_from_dir(directory):
     # extract features from each file in the directory
     for i, wav_file in enumerate(wav_files):
         if i % 20 == 0:
-            print("{}/{} in {}".format(i+1, n_wav_files, directory))
+            print(f"{i + 1}/{n_wav_files} in {directory}")
         [new_features, _] = extract_from_file(wav_file)
         frame_indices.append(sample_index)
         sample_index += new_features.shape[0]
@@ -180,5 +179,5 @@ def extract_from_dir(directory):
         file_name = os.path.basename(wav_file)
         class_labels += [file_name[:file_name.find("_")]] * new_features.shape[0]
     frame_indices.append(sample_index)
-    feature_matrix = np.vstack([m for m in frame_feature_matrices])
+    feature_matrix = np.vstack(list(frame_feature_matrices))
     return feature_matrix, np.unique(class_labels), class_labels, frame_indices

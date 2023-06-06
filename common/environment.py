@@ -90,4 +90,4 @@ def camel_to_snake(s):
 
 
 def print_lines(num_lines):
-    print(('\n'.join([n for n in num_lines * ''])))
+    print('\n'.join(list(num_lines * '')))

@@ -76,7 +76,9 @@ def read_audio_file(path, desired_fs):
     # Currently only supports .wav files
     extension = environment.file_extension(path).lower()
     if extension != '.wav':
-        raise NotImplementedError("read_audio_file() currently only supports .wav files, not %s" % extension)
+        raise NotImplementedError(
+            f"read_audio_file() currently only supports .wav files, not {extension}"
+        )
 
     return np.array(MonoLoader(filename=path, sampleRate=desired_fs)())
 
@@ -93,9 +95,9 @@ def frame_split(signal, fs=None, ms_size=None, ms_shift=None):
     """
     if isinstance(signal, str):
         x = read_audio_file(signal, fs)
+    elif fs is None:
+        raise AttributeError("Must specify fs if passing pre-loaded audio data to frame_split()")
     else:
-        if fs is None:
-            raise AttributeError("Must specify fs if passing pre-loaded audio data to frame_split()")
         x = signal
 
     # convert time-duration to sample-duration
@@ -104,13 +106,10 @@ def frame_split(signal, fs=None, ms_size=None, ms_shift=None):
     n_frames = int(len(signal) / frame_shift)
     frames = np.empty((n_frames, frame_size))
 
-    # frame the signal
-    i = 0
     signal_pos = 0
-    while i < n_frames:
+    for i in range(n_frames):
         frames[i] = x[signal_pos:signal_pos + frame_size]
         signal_pos += frame_shift
-        i += 1
     return frames, fs
 
 

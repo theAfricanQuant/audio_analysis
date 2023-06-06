@@ -69,13 +69,13 @@ class SpectrogramWidget(pg.PlotWidget):
 
         self.window_size = get_frame_size(self.fs, self.frame_size_ms)
         self.n_frame_display = int(self.display_width_seconds * self.fs / float(self.nfft))
-        print("# frames displayed: {}".format(self.n_frame_display))
+        print(f"# frames displayed: {self.n_frame_display}")
         freqs = np.arange(self.n_freq_display) * self.fs / float(self.nfft)
         print("Displaying {} values of a {}-pt FFT: freqs [{:.1f},{:.1f}]".format(
             self.n_freq_display*2, self.nfft, freqs.min(), freqs.max()))
         self.plot_roll_amount = self.n_freq_display
         self.spec_shape = (self.n_frame_display, self.n_freq_display)
-        print("Spectrogram shape: {}".format(self.spec_shape))
+        print(f"Spectrogram shape: {self.spec_shape}")
 
         self.img = pg.ImageItem()
         self.addItem(self.img)
@@ -100,8 +100,7 @@ class SpectrogramWidget(pg.PlotWidget):
         # colormap = cm.get_cmap("nipy_spectral")
         colormap = cm.get_cmap("gray")
         colormap._init()
-        lut = (colormap._lut * 255).view(np.ndarray)
-        return lut
+        return (colormap._lut * 255).view(np.ndarray)
 
     def update(self, chunk):
         # normalized, windowed frequencies in data chunk

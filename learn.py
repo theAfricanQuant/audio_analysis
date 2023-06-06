@@ -120,7 +120,7 @@ if __name__ == '__main__':
                         level=logging.INFO,
                         format='%(asctime)s\t\t%(message)s')
     logging.info('Hello logging world')
-    print("Training file counts {}".format(TRAIN_FILE_COUNTS))
+    print(f"Training file counts {TRAIN_FILE_COUNTS}")
 
     paths = {
         'model_name': os.sep.join(['res', 'models', ALGORITHM]),
@@ -130,7 +130,7 @@ if __name__ == '__main__':
         'test_data': os.sep.join(['res', 'features', '']) + 'TestData_' + KEYWORD + '.pkl'
     }
     environment.print_lines(5)
-    print("Testing file counts {}".format(TEST_FILE_COUNTS))
+    print(f"Testing file counts {TEST_FILE_COUNTS}")
 
     # learner = mixture.GMM(n_components=len(TRAINING_DIRS))
     # learner = GaussianNB()
