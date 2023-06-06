@@ -183,7 +183,7 @@ class GMMAudioClassifier(AudioClassifier):
         if load_features_from is None:
             print('Extracting features')
             [self.x_train, self.class_names, self.per_frame_labels, self.frame_indices] =\
-                AudioClassifier.extract_features(data_directory)
+                    AudioClassifier.extract_features(data_directory)
             if save_features_to is not None:
                 fe.save_data(save_features_to, self.x_train, self.per_frame_labels, self.frame_indices)
         else:
@@ -205,7 +205,9 @@ class GMMAudioClassifier(AudioClassifier):
                  for i in range(self.inner_learner.n_components)]
         self.class_names = self.class_names[modes]
         self.y_train_predict = self.class_names[indices]
-        print('Training accuracy: {}'.format(100 * np.mean(self.train_labels == self.y_train_predict)))
+        print(
+            f'Training accuracy: {100 * np.mean(self.train_labels == self.y_train_predict)}'
+        )
 
         # save the training data to a pickle
         print("Saving to " + save_model_to)
